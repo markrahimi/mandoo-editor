@@ -1,0 +1,70 @@
+{
+  "name": "mandoo-editor",
+  "version": "1.0.0",
+  "description": "A modern, lightweight WYSIWYG rich text editor for React & Next.js — feature-flagged, fully typed, zero runtime dependencies.",
+  "author": "Mohammad Ali Rahimi <hi@markrahimi.com> (https://markrahimi.com)",
+  "license": "MIT",
+  "homepage": "https://mandooeditor.markrahimi.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/markrahimi/mandoo-editor.git"
+  },
+  "bugs": {
+    "url": "https://github.com/markrahimi/mandoo-editor/issues"
+  },
+  "keywords": [
+    "wysiwyg",
+    "editor",
+    "rich-text",
+    "react",
+    "nextjs",
+    "typescript",
+    "contenteditable",
+    "markdown",
+    "block-editor"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./styles": "./dist/styles.css"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": [
+    "./dist/styles.css"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "type-check": "tsc --noEmit",
+    "prepublishOnly": "npm run build && npm run type-check"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": false
+    },
+    "react-dom": {
+      "optional": false
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "tsup": "^8.4.0",
+    "typescript": "^5.0.0"
+  }
+}
