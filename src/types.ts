@@ -131,6 +131,12 @@ export interface MandooEditorProps {
    * Has no effect until a pro plugin is enabled — safe to set now.
    */
   apiToken?: string;
+  /**
+   * HTML form field name — renders a hidden `<input>` that syncs with editor content.
+   * Makes the editor work with native forms, FormData, and server actions.
+   * @example <MandooEditor name="content" /> → form.get('content')
+   */
+  name?: string;
   /** Minimum height of the editor content area in px */
   height?: number;
   /** Extra CSS class on the root element */

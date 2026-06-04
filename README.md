@@ -48,11 +48,13 @@ yarn add mandoo-editor
 pnpm add mandoo-editor
 ```
 
-Then import the styles once (e.g. in your root layout):
+> **⚠️ Required — add this import wherever you use the editor:**
 
 ```tsx
-import "mandoo-editor/styles";
+import 'mandoo-editor/styles';
 ```
+
+Add it in your layout, page, or component — wherever `MandooEditor` is rendered. Without it the editor has no styling.
 
 ---
 
@@ -111,6 +113,50 @@ ref.current?.getMarkdown(); // → Markdown string
 ref.current?.setValue(html); // set content programmatically
 ref.current?.focus(); // focus the editor
 ref.current?.clear(); // clear content
+```
+
+---
+
+## Form Integration
+
+MandooEditor outputs HTML or Markdown. There are two ways to use it in a form:
+
+### Option 1 — `name` prop (native forms, FormData, Server Actions)
+
+Add a `name` prop and a hidden `<input>` is automatically rendered. Works with any form library or native HTML form submission.
+
+```tsx
+// Native HTML form
+<form action="/api/save" method="POST">
+  <MandooEditor name="content" outputFormat="html" />
+  <button type="submit">Save</button>
+</form>
+
+// Next.js Server Action
+async function save(formData: FormData) {
+  'use server';
+  const content = formData.get('content'); // ← HTML or Markdown
+}
+
+<form action={save}>
+  <MandooEditor name="content" outputFormat="markdown" />
+  <button type="submit">Save</button>
+</form>
+```
+
+### Option 2 — `onChange` (controlled state, react-hook-form, Zustand…)
+
+```tsx
+// useState
+const [content, setContent] = useState('');
+<MandooEditor onChange={setContent} outputFormat="html" />
+
+// react-hook-form
+const { setValue } = useForm();
+<MandooEditor onChange={(v) => setValue('content', v)} outputFormat="markdown" />
+
+// Zustand / Redux
+<MandooEditor onChange={(v) => dispatch(setContent(v))} />
 ```
 
 ---
@@ -310,7 +356,7 @@ import type {
 |                |                                                                                                  |
 | -------------- | ------------------------------------------------------------------------------------------------ |
 | 🌍 **Website** | [mandooeditor.markrahimi.com](https://mandooeditor.markrahimi.com)                               |
-| 📦 **npm**     | [npmjs.com/package/mandoo-editor](https://www.npmjs.com/package/mandoo-editor)                 |
+| 📦 **npm**     | [npmjs.com/package/mandoo-editor](https://www.npmjs.com/package/mandoo-editor)                   |
 | 🐙 **GitHub**  | [github.com/markrahimi/mandoo-editor](https://github.com/markrahimi/mandoo-editor)               |
 | 🐛 **Issues**  | [github.com/markrahimi/mandoo-editor/issues](https://github.com/markrahimi/mandoo-editor/issues) |
 | ☕ **Support** | [ko-fi.com/markrahimi](https://ko-fi.com/E1E11W0EQP)                                             |
