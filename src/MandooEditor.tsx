@@ -8,7 +8,7 @@ import React, {
   useImperativeHandle,
   forwardRef,
 } from 'react';
-import styles from './styles/mandoo.module.css';
+
 import Toolbar from './toolbar/Toolbar';
 import VisualEditor from './editor/VisualEditor';
 import TextEditor from './editor/TextEditor';
@@ -43,6 +43,7 @@ const MandooEditor = forwardRef<MandooEditorHandle, MandooEditorProps>(function 
     features: featuresProp,
     media,
     plugins = {},
+    name,
     height = DEFAULT_HEIGHT,
     className,
   },
@@ -241,19 +242,19 @@ const MandooEditor = forwardRef<MandooEditorHandle, MandooEditorProps>(function 
   return (
     <div
       className={[
-        styles['mandoo-editor-container'],
-        state.isFullscreen ? styles['mandoo-fullscreen'] : '',
+        'mandoo-editor-container',
+        state.isFullscreen ? 'mandoo-fullscreen' : '',
         className ?? '',
       ].filter(Boolean).join(' ')}
       id="mandoo-editor-container"
     >
       {/* Tools bar: Add Media + Tab buttons */}
-      <div className={styles['mandoo-editor-tools']} id="mandoo-editor-tools">
-        <div className={styles['mandoo-media-buttons']}>
+      <div className={'mandoo-editor-tools'} id="mandoo-editor-tools">
+        <div className={'mandoo-media-buttons'}>
           {features.media && (
             <button
               type="button"
-              className={styles['btn-add-media']}
+              className={'btn-add-media'}
               title="Add Media"
               onClick={() => {
                 if (!media) {
@@ -275,7 +276,7 @@ const MandooEditor = forwardRef<MandooEditorHandle, MandooEditorProps>(function 
           {plugins.tables && (
             <button
               type="button"
-              className={styles['btn-add-media']}
+              className={'btn-add-media'}
               title="Insert Table"
               onClick={() => { saveRange(); setShowTableModal(true); }}
             >
@@ -285,7 +286,7 @@ const MandooEditor = forwardRef<MandooEditorHandle, MandooEditorProps>(function 
           {plugins.youtube && (
             <button
               type="button"
-              className={styles['btn-add-media']}
+              className={'btn-add-media'}
               title="Embed YouTube Video"
               onClick={() => { saveRange(); setShowYoutubeModal(true); }}
               style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}
@@ -320,10 +321,10 @@ const MandooEditor = forwardRef<MandooEditorHandle, MandooEditorProps>(function 
               />
         )}
 
-        <div className={styles['mandoo-editor-tabs']} role="tablist">
+        <div className={'mandoo-editor-tabs'} role="tablist">
           {tabs.map(tab => (
             <button key={tab} type="button" role="tab" aria-selected={activeTab === tab}
-              className={`${styles['mandoo-tab-btn']} ${activeTab === tab ? styles['mandoo-tab-active'] : ''}`}
+              className={`${'mandoo-tab-btn'} ${activeTab === tab ? 'mandoo-tab-active' : ''}`}
               onClick={() => switchTo(tab)}>
               {tab.charAt(0).toUpperCase() + tab.slice(1)}
             </button>
@@ -332,7 +333,7 @@ const MandooEditor = forwardRef<MandooEditorHandle, MandooEditorProps>(function 
       </div>
 
       {/* Editor wrap */}
-      <div className={styles['mandoo-editor-wrap']} id="mandoo-editor-wrap">
+      <div className={'mandoo-editor-wrap'} id="mandoo-editor-wrap">
         {activeTab === 'block' ? (
           <BlockEditor
             html={htmlValue}
@@ -403,6 +404,16 @@ const MandooEditor = forwardRef<MandooEditorHandle, MandooEditorProps>(function 
           />
         )}
       </div>
+
+      {/* Hidden input for native form / FormData / server actions integration */}
+      {name && (
+        <input
+          type="hidden"
+          name={name}
+          value={outputFormat === 'markdown' ? htmlToMarkdown(htmlValue) : htmlValue}
+          readOnly
+        />
+      )}
 
       {/* ── Watermark ─────────────────────────────────────────────────────── */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '3px 8px', background: '#f8fafc', borderTop: '1px solid #f1f5f9' }}>
