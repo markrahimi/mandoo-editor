@@ -24,6 +24,7 @@ export default function VisualEditor({
   onFocus,
 }: VisualEditorProps) {
   useEffect(() => {
+    try { document.execCommand('defaultParagraphSeparator', false, 'p'); } catch (_) {}
     if (editorRef.current && initialValue) {
       editorRef.current.innerHTML = initialValue;
     }

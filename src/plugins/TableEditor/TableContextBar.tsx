@@ -68,6 +68,13 @@ export default function TableContextBar({ editorRef }: TableContextBarProps) {
     editorRef.current?.dispatchEvent(new InputEvent('input', { bubbles: true }));
   }, [editorRef]);
 
+  const removeTable = useCallback((t: HTMLTableElement) => {
+    t.remove();
+    tableRef.current = null;
+    setPos(null);
+    setCellInfo(null);
+  }, []);
+
   const addRowBelow = () => exec(t => {
     const info = cellInfo;
     if (!info) return;
@@ -90,11 +97,16 @@ export default function TableContextBar({ editorRef }: TableContextBarProps) {
     }
   });
 
-  const deleteRow = () => exec(t => {
+  const deleteRow = () => {
     const info = cellInfo;
-    if (!info || info.rowCount <= 1) return;
-    t.deleteRow(info.row);
-  });
+    if (!info) return;
+    if (info.rowCount <= 1) {
+      if (tableRef.current) removeTable(tableRef.current);
+      editorRef.current?.dispatchEvent(new InputEvent('input', { bubbles: true }));
+    } else {
+      exec(t => t.deleteRow(info.row));
+    }
+  };
 
   const addColRight = () => exec(t => {
     const info = cellInfo;
@@ -118,11 +130,16 @@ export default function TableContextBar({ editorRef }: TableContextBarProps) {
     });
   });
 
-  const deleteCol = () => exec(t => {
+  const deleteCol = () => {
     const info = cellInfo;
-    if (!info || info.colCount <= 1) return;
-    Array.from(t.rows).forEach(row => row.deleteCell(info.col));
-  });
+    if (!info) return;
+    if (info.colCount <= 1) {
+      if (tableRef.current) removeTable(tableRef.current);
+      editorRef.current?.dispatchEvent(new InputEvent('input', { bubbles: true }));
+    } else {
+      exec(t => Array.from(t.rows).forEach(row => row.deleteCell(info.col)));
+    }
+  };
 
   if (!pos) return null;
 

@@ -24,7 +24,7 @@ import { useSelection } from './hooks/useSelection';
 import { useExecCommands } from './hooks/useExecCommands';
 import { useEditorState } from './hooks/useEditorState';
 import { htmlToMarkdown } from './utils/htmlToMarkdown';
-import { resolveFeatures, DEFAULT_HEIGHT, DEFAULT_PLACEHOLDER, DEFAULT_TABS } from './constants';
+import { resolveFeatures, DEFAULT_HEIGHT, DEFAULT_PLACEHOLDER, DEFAULT_TABS, DEFAULT_THEME, DEFAULT_COLOR_SCHEME, getThemeVars } from './constants';
 import {
   MandooEditorProps,
   MandooEditorHandle,
@@ -44,6 +44,8 @@ const MandooEditor = forwardRef<MandooEditorHandle, MandooEditorProps>(function 
     media,
     plugins = {},
     name,
+    theme = DEFAULT_THEME,
+    colorScheme = DEFAULT_COLOR_SCHEME,
     height = DEFAULT_HEIGHT,
     className,
   },
@@ -247,6 +249,9 @@ const MandooEditor = forwardRef<MandooEditorHandle, MandooEditorProps>(function 
         className ?? '',
       ].filter(Boolean).join(' ')}
       id="mandoo-editor-container"
+      data-mandoo-theme={theme}
+      data-mandoo-scheme={colorScheme}
+      style={getThemeVars(theme, colorScheme)}
     >
       {/* Tools bar: Add Media + Tab buttons */}
       <div className={'mandoo-editor-tools'} id="mandoo-editor-tools">
@@ -416,7 +421,7 @@ const MandooEditor = forwardRef<MandooEditorHandle, MandooEditorProps>(function 
       )}
 
       {/* ── Watermark ─────────────────────────────────────────────────────── */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '3px 8px', background: '#f8fafc', borderTop: '1px solid #f1f5f9' }}>
+      <div className="mce-watermark">
         <a href="https://mandooeditor.markrahimi.com" target="_blank" rel="noopener noreferrer"
           style={{ display: 'flex', alignItems: 'center', gap: 4, textDecoration: 'none' }}>
           <svg width="12" height="12" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style={{ opacity: .6, flexShrink: 0 }}>
@@ -424,9 +429,9 @@ const MandooEditor = forwardRef<MandooEditorHandle, MandooEditorProps>(function 
             <polyline points="30,75 56,100 30,125" fill="none" stroke="#7C3AED" strokeWidth="20" strokeLinecap="round" strokeLinejoin="round"/>
             <polyline points="78,132 78,68 118,100 158,68 158,132" fill="none" stroke="#C4B5FD" strokeWidth="20" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-          <span style={{ fontSize: 10, color: '#94a3b8', fontFamily: 'sans-serif', letterSpacing: '.2px' }}>MandooEditor</span>
+          <span className="mce-watermark-name">MandooEditor</span>
         </a>
-        <span style={{ fontSize: 10, color: '#cbd5e1', fontFamily: 'sans-serif', letterSpacing: '.3px' }}>Advanced Rich Text Editor</span>
+        <span className="mce-watermark-tagline">Advanced Rich Text Editor</span>
       </div>
 
       {/* ── Plugin modals ──────────────────────────────────────────────────── */}

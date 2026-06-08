@@ -19,5 +19,13 @@ export default defineConfig({
     } catch (e) {
       console.warn('CSS copy failed:', e);
     }
+    try {
+      const { writeFileSync } = await import('fs');
+      writeFileSync('dist/styles.d.ts', '// side-effect import — no exports\nexport {};\n');
+      writeFileSync('dist/styles.d.mts', '// side-effect import — no exports\nexport {};\n');
+      console.log('✓ dist/styles.d.ts ready');
+    } catch (e) {
+      console.warn('styles.d.ts creation failed:', e);
+    }
   },
 });

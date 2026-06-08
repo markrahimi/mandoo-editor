@@ -32,7 +32,11 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     },
-    "./styles": "./dist/styles.css"
+    "./styles": {
+      "types": "./dist/styles.d.ts",
+      "import": "./dist/styles.css",
+      "require": "./dist/styles.css"
+    }
   },
   "files": [
     "dist",

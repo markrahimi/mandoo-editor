@@ -147,7 +147,7 @@ export default function BlockEditor({ html, height, onChange }: BlockEditorProps
   }, []);
 
   return (
-    <div className="mce-block-editor" style={{ minHeight: height, padding: '16px 20px', background: '#fff' }}>
+    <div className="mce-block-editor" style={{ minHeight: height }}>
       {blocks.map((block, index) => {
         const isOver = dragOverIndex === index;
         const cls = [

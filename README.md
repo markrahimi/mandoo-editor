@@ -94,6 +94,8 @@ export default function MyPage() {
 | `features`     | `Features`                | all enabled                 | Granular toolbar feature flags           |
 | `plugins`      | `Plugins`                 | none                        | Optional plugin flags                    |
 | `media`        | `MediaConfig`             | —                           | File upload / library config             |
+| `theme`        | `'classic' \| 'modern'`   | `'classic'`                 | Visual theme                             |
+| `colorScheme`  | `'light' \| 'dark'`       | `'light'`                   | Color scheme                             |
 | `height`       | `number`                  | `400`                       | Min height of editor content area (px)   |
 | `className`    | `string`                  | —                           | Extra CSS class on root element          |
 | `apiToken`     | `string`                  | —                           | Token for future paid pro features       |
@@ -293,6 +295,83 @@ export async function POST(req: NextRequest) {
 // Only Block editor
 <MandooEditor tabs={['block']} />
 ```
+
+---
+
+## Theming
+
+### Built-in themes
+
+MandooEditor ships with two visual themes and two color schemes — mix and match any combination:
+
+```tsx
+// Classic theme (default) — dense toolbar, serif content font
+<MandooEditor theme="classic" colorScheme="light" />
+
+// Classic dark
+<MandooEditor theme="classic" colorScheme="dark" />
+
+// Modern theme — minimal toolbar, rounded corners, sans-serif content font
+<MandooEditor theme="modern" colorScheme="light" />
+
+// Modern dark
+<MandooEditor theme="modern" colorScheme="dark" />
+```
+
+### CSS customization
+
+Every color, radius, and font in MandooEditor is driven by CSS custom properties set on the root container. You can override any of them from your own CSS:
+
+```css
+/* globals.css or any stylesheet loaded after mandoo-editor/styles */
+.mandoo-editor-container {
+  --me-accent: #e11d48;            /* links, active buttons, focus rings */
+  --me-container-radius: 4px;      /* outer border radius */
+  --me-content-font: 'Vazirmatn', sans-serif; /* content area font */
+}
+```
+
+You can also scope overrides to a specific theme or color scheme:
+
+```css
+/* Only affect the modern theme */
+.mandoo-editor-container[data-mandoo-theme="modern"] {
+  --me-accent: #7c3aed;
+  --me-toolbar-bg: #fafafa;
+}
+
+/* Only affect dark mode */
+.mandoo-editor-container[data-mandoo-scheme="dark"] {
+  --me-bg: #18181b;
+  --me-border: #27272a;
+}
+```
+
+### Full list of CSS variables
+
+| Variable | Controls | Classic light default |
+|---|---|---|
+| `--me-bg` | Editor & modal background | `#ffffff` |
+| `--me-border` | All borders | `#dddddd` |
+| `--me-color` | UI text | `#444444` |
+| `--me-color-strong` | Headings, modal titles | `#23282d` |
+| `--me-toolbar-bg` | Toolbar row background | `#ebebeb` |
+| `--me-tools-bg` | Media/tabs bar background | `#f1f1f1` |
+| `--me-btn-hover` | Button hover background | `#d5d5d5` |
+| `--me-btn-active` | Active/pressed button background | `#b8b8b8` |
+| `--me-btn-bg` | Inactive button background | `#f3f5f6` |
+| `--me-statusbar-bg` | Status bar background | `#ebebeb` |
+| `--me-textarea-bg` | HTML textarea background | `#f9f9f9` |
+| `--me-modal-bg` | Modal body background | `#ffffff` |
+| `--me-modal-header-bg` | Modal header background | `#f1f1f1` |
+| `--me-accent` | Links, focus rings, active state | `#0073aa` |
+| `--me-muted` | Placeholder, counts, labels | `#888888` |
+| `--me-sep` | Toolbar separators | `#cccccc` |
+| `--me-content-color` | Content area text | `#333333` |
+| `--me-content-font` | Content area font family | `Georgia, serif` |
+| `--me-btn-size` | Toolbar button width & height | `26px` |
+| `--me-btn-radius` | Toolbar button border radius | `2px` |
+| `--me-container-radius` | Outer container border radius | `0px` |
 
 ---
 

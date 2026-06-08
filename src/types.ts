@@ -4,6 +4,12 @@ export type OutputFormat = 'html' | 'markdown';
 
 export type TabId = 'visual' | 'text' | 'block';
 
+/** Visual theme — 'classic' for a traditional dense toolbar, 'modern' for a minimal floating style */
+export type Theme = 'classic' | 'modern';
+
+/** Color scheme — 'light' (default) or 'dark' */
+export type ColorScheme = 'light' | 'dark';
+
 export type BlockFormat =
   | 'p'
   | 'h1'
@@ -137,6 +143,10 @@ export interface MandooEditorProps {
    * @example <MandooEditor name="content" /> → form.get('content')
    */
   name?: string;
+  /** Visual theme — 'classic' (default) or 'modern' (Tiptap-inspired) */
+  theme?: Theme;
+  /** Color scheme — 'light' (default) or 'dark' */
+  colorScheme?: ColorScheme;
   /** Minimum height of the editor content area in px */
   height?: number;
   /** Extra CSS class on the root element */

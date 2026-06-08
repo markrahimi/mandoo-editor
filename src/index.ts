@@ -11,6 +11,8 @@ export type {
   TabId,
   OutputFormat,
   BlockFormat,
+  Theme,
+  ColorScheme,
 } from './types';
 export { resolveFeatures, DEFAULT_TABS, DEFAULT_HEIGHT, DEFAULT_PLACEHOLDER } from './constants';
 export { htmlToMarkdown } from './utils/htmlToMarkdown';
