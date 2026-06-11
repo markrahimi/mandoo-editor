@@ -1,6 +1,6 @@
 {
   "name": "mandoo-editor",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A modern, lightweight WYSIWYG rich text editor for React & Next.js — feature-flagged, fully typed, zero runtime dependencies.",
   "author": "Mohammad Ali Rahimi <hi@markrahimi.com> (https://markrahimi.com)",
   "license": "MIT",

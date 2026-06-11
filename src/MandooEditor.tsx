@@ -46,6 +46,7 @@ const MandooEditor = forwardRef<MandooEditorHandle, MandooEditorProps>(function 
     name,
     theme = DEFAULT_THEME,
     colorScheme = DEFAULT_COLOR_SCHEME,
+    defaultDir,
     height = DEFAULT_HEIGHT,
     className,
   },
@@ -159,8 +160,17 @@ const MandooEditor = forwardRef<MandooEditorHandle, MandooEditorProps>(function 
 
   // Wrap handleInput to pass onChange
   const handleInput = useCallback(() => {
+    // Fix bare text nodes — wrap in <p> if the first child is a text node
+    if (editorRef.current) {
+      const fc = editorRef.current.firstChild;
+      if (fc && fc.nodeType === Node.TEXT_NODE) {
+        const p = document.createElement('p');
+        editorRef.current.insertBefore(p, fc);
+        p.appendChild(fc);
+      }
+    }
     _handleInput(handleChange);
-  }, [_handleInput, handleChange]);
+  }, [_handleInput, handleChange, editorRef]);
 
   // Wrap handleKeyDown to pass exec
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
@@ -179,8 +189,17 @@ const MandooEditor = forwardRef<MandooEditorHandle, MandooEditorProps>(function 
   }, [handleSelectionChange]);
 
   const handleFocus = useCallback(() => {
-    if (editorRef.current && editorRef.current.innerHTML === '') {
-      document.execCommand('formatBlock', false, 'p');
+    if (!editorRef.current) return;
+    // When editor is empty, insert a real <p> so typing starts inside a block
+    if (!editorRef.current.firstChild) {
+      const p = document.createElement('p');
+      p.innerHTML = '<br>';
+      editorRef.current.appendChild(p);
+      const range = document.createRange();
+      range.setStart(p, 0);
+      range.collapse(true);
+      window.getSelection()?.removeAllRanges();
+      window.getSelection()?.addRange(range);
     }
   }, []);
 
@@ -353,6 +372,8 @@ const MandooEditor = forwardRef<MandooEditorHandle, MandooEditorProps>(function 
             <Toolbar
               activeFormats={state.activeFormats}
               currentBlock={state.currentBlock}
+              currentDir={state.currentDir}
+              defaultDir={defaultDir}
               isFullscreen={state.isFullscreen}
               showKitchenSink={state.showKitchenSink}
               pasteAsText={state.pasteAsText}
@@ -379,6 +400,7 @@ const MandooEditor = forwardRef<MandooEditorHandle, MandooEditorProps>(function 
               initialValue={htmlValue}
               placeholder={placeholder}
               height={height}
+              dir={defaultDir}
               onInput={handleInput}
               onKeyDown={handleKeyDown}
               onPaste={handlePaste}

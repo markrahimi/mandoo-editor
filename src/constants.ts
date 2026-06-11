@@ -31,6 +31,8 @@ export const ALL_FEATURES_ON: Required<Features> = {
   media: true,
   subscript: true,
   superscript: true,
+  code: true,
+  direction: true,
 };
 
 /** Merge partial feature flags with all-enabled defaults */

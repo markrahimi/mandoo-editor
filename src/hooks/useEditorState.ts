@@ -6,6 +6,7 @@ import { EditorState, ExecCommands } from '../types';
 const INITIAL_STATE: EditorState = {
   activeFormats: new Set(),
   currentBlock: 'p',
+  currentDir: '',
   wordCount: 0,
   charCount: 0,
   pathElements: [],
@@ -38,10 +39,37 @@ export function useEditorState(editorRef: React.RefObject<HTMLDivElement | null>
       // execCommand state queries can throw in some contexts
     }
 
+    // Detect inline <code> around cursor
+    try {
+      const sel = window.getSelection();
+      if (sel && sel.anchorNode) {
+        let n: Node | null = sel.anchorNode;
+        if (n.nodeType === Node.TEXT_NODE) n = n.parentNode;
+        while (n && n !== document.body) {
+          if ((n as Element).tagName === 'CODE') { formats.add('code'); break; }
+          n = n.parentNode;
+        }
+      }
+    } catch { /* empty */ }
+
     let currentBlock = 'p';
     try {
       const val = document.queryCommandValue('formatBlock');
       currentBlock = val?.replace(/^<|>$/g, '') || 'p';
+    } catch { /* empty */ }
+
+    let currentDir: 'rtl' | 'ltr' | '' = '';
+    try {
+      const sel = window.getSelection();
+      if (sel && sel.anchorNode) {
+        let n: Node | null = sel.anchorNode;
+        if (n.nodeType === Node.TEXT_NODE) n = n.parentNode;
+        while (n && n !== editorRef.current) {
+          const dir = (n as Element).getAttribute?.('dir');
+          if (dir === 'rtl' || dir === 'ltr') { currentDir = dir; break; }
+          n = n.parentNode;
+        }
+      }
     } catch { /* empty */ }
 
     const text = editorRef.current?.innerText || '';
@@ -54,6 +82,7 @@ export function useEditorState(editorRef: React.RefObject<HTMLDivElement | null>
       ...prev,
       activeFormats: formats,
       currentBlock,
+      currentDir,
       wordCount: words.length,
       charCount,
       pathElements: path,

@@ -8,7 +8,7 @@
 
 <p align="center">
   <strong>A modern, lightweight WYSIWYG rich text editor for React & Next.js</strong><br/>
-  Feature-flagged · Fully typed · Zero runtime dependencies · &lt;300KB
+  Feature-flagged · Fully typed · Zero runtime dependencies · &lt;400KB
 </p>
 
 <p align="center">
@@ -80,7 +80,7 @@ export default function MyPage() {
 
 ## API Reference
 
-###rops
+### Props
 
 | Prop           | Type                      | Default                     | Description                              |
 | -------------- | ------------------------- | --------------------------- | ---------------------------------------- |
@@ -96,11 +96,12 @@ export default function MyPage() {
 | `media`        | `MediaConfig`             | —                           | File upload / library config             |
 | `theme`        | `'classic' \| 'modern'`   | `'classic'`                 | Visual theme                             |
 | `colorScheme`  | `'light' \| 'dark'`       | `'light'`                   | Color scheme                             |
+| `defaultDir`   | `'rtl' \| 'ltr'`          | —                           | Default text direction for the editor    |
 | `height`       | `number`                  | `400`                       | Min height of editor content area (px)   |
 | `className`    | `string`                  | —                           | Extra CSS class on root element          |
 | `apiToken`     | `string`                  | —                           | Token for future paid pro features       |
 
-###mperative Handle (ref)
+### Imperative Handle (ref)
 
 ```tsx
 import { useRef } from "react";
@@ -180,7 +181,55 @@ Disable any toolbar button by setting its flag to `false`:
 />
 ```
 
-Full list of flags: `bold`, `italic`, `strikethrough`, `lists`, `blockquote`, `hr`, `align`, `link`, `fullscreen`, `kitchenSink`, `underline`, `justify`, `foreColor`, `pasteAsText`, `removeFormat`, `charMap`, `indent`, `undo`, `help`, `media`, `subscript`, `superscript`
+Full list of flags: `bold`, `italic`, `strikethrough`, `lists`, `blockquote`, `hr`, `align`, `link`, `code`, `direction`, `fullscreen`, `kitchenSink`, `underline`, `justify`, `foreColor`, `pasteAsText`, `removeFormat`, `charMap`, `indent`, `undo`, `help`, `media`, `subscript`, `superscript`
+
+---
+
+## Code Formatting
+
+The `code` feature adds a **Code** button to the toolbar. It has two modes depending on the selection:
+
+| Context | Result |
+|---|---|
+| Text selected | Wraps in inline `<code>` |
+| No selection / cursor in a block | Converts block to `<pre>` (code block) |
+| Click again inside `<code>` or `<pre>` | Removes the formatting |
+
+Both `<code>` and `<pre>` share the same visual style — monospace font, subtle background from `--me-textarea-bg`, and a matching border — so inline and block code look like a family.
+
+```tsx
+// Disable the code button
+<MandooEditor features={{ code: false }} />
+```
+
+---
+
+## RTL / LTR Direction
+
+The `direction` feature adds **RTL** and **LTR** toggle buttons to the toolbar. Direction is applied per block — each paragraph or heading can have its own direction independently.
+
+| Action | Result |
+|---|---|
+| Click RTL | Sets `dir="rtl" style="direction:rtl; text-align:right"` on the current block |
+| Click LTR | Sets `dir="ltr" style="direction:ltr; text-align:left"` on the current block |
+| Click the active button again | Removes direction from the block (toggle off) |
+
+One button is always highlighted: the active block's direction, or `defaultDir` if set, or LTR by default.
+
+```tsx
+// RTL-first editor (e.g. Persian / Arabic content)
+<MandooEditor defaultDir="rtl" />
+
+// Disable the direction buttons entirely
+<MandooEditor features={{ direction: false }} />
+```
+
+Direction is stored inline in the HTML output so it renders correctly anywhere, without requiring the editor's stylesheet:
+
+```html
+<p dir="rtl" style="direction: rtl; text-align: right;">متن فارسی</p>
+<p dir="ltr" style="direction: ltr; text-align: left;">English paragraph</p>
+```
 
 ---
 
@@ -226,7 +275,7 @@ Wire any storage backend — S3, MinIO, Cloudflare R2, or your own API:
 />
 ```
 
-###inIO / S3 Server Route (Next.js App Router)
+### MinIO / S3 Server Route (Next.js App Router)
 
 ```ts
 // app/api/upload/route.ts

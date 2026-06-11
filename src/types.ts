@@ -48,6 +48,8 @@ export interface Features {
   media?: boolean;
   subscript?: boolean;
   superscript?: boolean;
+  code?: boolean;
+  direction?: boolean;
 }
 
 /** Returned by media.onUpload */
@@ -147,6 +149,8 @@ export interface MandooEditorProps {
   theme?: Theme;
   /** Color scheme — 'light' (default) or 'dark' */
   colorScheme?: ColorScheme;
+  /** Default text direction for the editor — 'ltr' (default) or 'rtl' */
+  defaultDir?: 'rtl' | 'ltr';
   /** Minimum height of the editor content area in px */
   height?: number;
   /** Extra CSS class on the root element */
@@ -173,6 +177,7 @@ export interface MandooEditorHandle {
 export interface EditorState {
   activeFormats: Set<string>;
   currentBlock: string;
+  currentDir: 'rtl' | 'ltr' | '';
   wordCount: number;
   charCount: number;
   pathElements: string[];
@@ -208,4 +213,6 @@ export interface ExecCommands {
   insertChar(char: string): void;
   subscript(): void;
   superscript(): void;
+  code(): void;
+  setDirection(dir: 'rtl' | 'ltr'): void;
 }

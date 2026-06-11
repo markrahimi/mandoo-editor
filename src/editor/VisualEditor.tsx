@@ -7,6 +7,7 @@ interface VisualEditorProps {
   initialValue?: string;
   placeholder?: string;
   height?: number;
+  dir?: 'rtl' | 'ltr';
   onInput: () => void;
   onKeyDown: (e: React.KeyboardEvent) => void;
   onPaste: (e: React.ClipboardEvent) => void;
@@ -18,6 +19,7 @@ export default function VisualEditor({
   initialValue = '',
   placeholder = 'Start writing…',
   height = 300,
+  dir,
   onInput,
   onKeyDown,
   onPaste,
@@ -40,6 +42,7 @@ export default function VisualEditor({
         contentEditable
         suppressContentEditableWarning
         data-placeholder={placeholder}
+        dir={dir}
         style={{ minHeight: height }}
         onInput={onInput}
         onKeyDown={onKeyDown}

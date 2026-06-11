@@ -247,6 +247,24 @@ export const IconFileGeneric = ({ size = 40 }: IconProps) => (
   </svg>
 );
 
+export const IconDirectionRTL = ({ size = 14 }: IconProps) => (
+  <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 1920 1920" fill="currentColor">
+    <path d="m188 1544.887 373.633 373.6 60.77-60.678-270.118-270.095h1372.732v-85.74H352.285l270.118-270.095-60.77-60.593L188 1544.886ZM755.599 85.827h162.74v543.192h-162.74c-149.78 0-271.663-121.787-271.663-271.553 0-149.853 121.883-271.64 271.663-271.64m0 629.02h162.74v540.36h85.833V85.827h225.656v1169.38h85.833V85.827h165.744V0H755.6C558.525 0 398.103 160.323 398.103 357.466c0 197.056 160.422 357.38 357.496 357.38" fillRule="evenodd"/>
+  </svg>
+);
+
+export const IconDirectionLTR = ({ size = 14 }: IconProps) => (
+  <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 1920 1920" fill="currentColor">
+    <path d="m1384.152 1232.856 270.293 270.22H288.975v85.892h1365.47l-270.293 270.306 60.743 60.726 374.08-373.892-374.08-373.892-60.743 60.64ZM650.967 85.893h162.897V629.51H650.967c-149.924 0-271.926-121.883-271.926-271.766 0-149.969 122.002-271.851 271.926-271.851m0 629.51h162.897v540.782h85.917V85.893h225.874v1170.292h85.916V85.893h165.905V0h-726.51c-197.262 0-357.84 160.448-357.84 357.744 0 197.21 160.578 357.659 357.842 357.659" fillRule="evenodd"/>
+  </svg>
+);
+
+export const IconCode = ({ size = 14 }: IconProps) => (
+  <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m8 8-4 4 4 4m8 0 4-4-4-4m-2-3-4 14"/>
+  </svg>
+);
+
 export const IconSubscript = ({ size = 16 }: IconProps) => (
   <svg style={s(size)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M20 20h-4v-.5c1.0989-1.0329 3.75-2.5 3.75-3.5v-1.0001c0-.5523-.4477-.9999-1-.9999H17c-.5522 0-1 .4477-1 1M4.00004 4l9.12206 11.3932m0-11.3932L4 15.3932"/>

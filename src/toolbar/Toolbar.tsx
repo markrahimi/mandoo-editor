@@ -8,7 +8,7 @@ import LinkModal from './LinkModal';
 import CharMapModal from './CharMapModal';
 import {
   IconBold, IconItalic, IconUnderline, IconStrikethrough,
-  IconBulList, IconNumList, IconBlockquote, IconHR,
+  IconBulList, IconNumList, IconBlockquote, IconHR, IconCode, IconDirectionRTL, IconDirectionLTR,
   IconAlignLeft, IconAlignCenter, IconAlignRight, IconAlignJustify,
   IconLinkReal, IconUnlink,
   IconKitchenSink, IconFullscreen, IconFullscreenExit,
@@ -21,6 +21,8 @@ import { BlockFormat, ExecCommands, Features } from '../types';
 interface ToolbarProps {
   activeFormats: Set<string>;
   currentBlock: string;
+  currentDir: 'rtl' | 'ltr' | '';
+  defaultDir?: 'rtl' | 'ltr';
   isFullscreen: boolean;
   showKitchenSink: boolean;
   pasteAsText: boolean;
@@ -39,6 +41,8 @@ interface ToolbarProps {
 export default function Toolbar({
   activeFormats,
   currentBlock,
+  currentDir,
+  defaultDir,
   isFullscreen,
   showKitchenSink,
   pasteAsText,
@@ -72,10 +76,13 @@ export default function Toolbar({
 
   const Sep = () => <div className="mce-sep" aria-hidden="true" />;
 
+  // One direction is always active: explicit block dir → defaultDir → 'ltr'
+  const effectiveDir = currentDir || defaultDir || 'ltr';
+
   // Whether row 1 has any separator-requiring groups
   const hasRow1 = features.bold || features.italic || features.strikethrough ||
-    features.lists || features.blockquote || features.hr || features.align ||
-    features.link || features.fullscreen || features.kitchenSink;
+    features.lists || features.blockquote || features.hr || features.code ||
+    features.align || features.direction || features.link || features.fullscreen || features.kitchenSink;
 
   // Whether row 2 should render (always visible when showKitchenSink is true)
   const hasRow2 = features.kitchenSink;
@@ -161,7 +168,18 @@ export default function Toolbar({
             </ToolbarButton>
           )}
 
-          {(features.blockquote || features.hr) && features.align && <Sep />}
+          {features.code && (
+            <ToolbarButton
+              title="Code"
+              active={currentBlock === 'pre' || activeFormats.has('code')}
+              onMouseDown={saveOnly}
+              onClick={exec.code}
+            >
+              <IconCode />
+            </ToolbarButton>
+          )}
+
+          {(features.blockquote || features.hr || features.code) && features.align && <Sep />}
 
           {features.align && (
             <>
@@ -192,7 +210,30 @@ export default function Toolbar({
             </>
           )}
 
-          {features.align && features.link && <Sep />}
+          {features.align && (features.direction || features.link) && <Sep />}
+
+          {features.direction && (
+            <>
+              <ToolbarButton
+                title="Right to Left (RTL)"
+                active={effectiveDir === 'rtl'}
+                onMouseDown={saveOnly}
+                onClick={() => exec.setDirection('rtl')}
+              >
+                <IconDirectionRTL />
+              </ToolbarButton>
+              <ToolbarButton
+                title="Left to Right (LTR)"
+                active={effectiveDir === 'ltr'}
+                onMouseDown={saveOnly}
+                onClick={() => exec.setDirection('ltr')}
+              >
+                <IconDirectionLTR />
+              </ToolbarButton>
+            </>
+          )}
+
+          {features.direction && features.link && <Sep />}
 
           {features.link && (
             <>
