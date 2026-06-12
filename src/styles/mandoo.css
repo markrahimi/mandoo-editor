@@ -736,6 +736,116 @@
   z-index: 1;
 }
 
+/* ---- Emoji picker modal ---- */
+.mce-emoji-modal {
+  width: min(420px, 94vw);
+}
+
+.mce-emoji-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mce-emoji-search {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--me-border, #e0e0e0);
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--me-color, #333);
+  background: var(--me-bg, #fff);
+  box-sizing: border-box;
+}
+
+.mce-emoji-search:focus {
+  outline: none;
+  border-color: var(--me-accent, #0073aa);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--me-accent, #0073aa) 20%, transparent);
+}
+
+.mce-emoji-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.mce-emoji-category {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+}
+
+.mce-emoji-category:hover {
+  background: var(--me-btn-hover, #f0f0f0);
+}
+
+.mce-emoji-category-active {
+  background: color-mix(in srgb, var(--me-accent, #0073aa) 12%, var(--me-bg, #fff));
+  border-color: color-mix(in srgb, var(--me-accent, #0073aa) 35%, var(--me-border, #e0e0e0));
+}
+
+.mce-emoji-preview {
+  display: flex;
+  align-items: center;
+  min-height: 50px;
+  padding: 4px 10px;
+  background: var(--me-textarea-bg, #f9f9f9);
+  border: 1px solid var(--me-border, #eee);
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+.mce-emoji-preview-char {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.mce-emoji-empty {
+  margin: 0;
+  padding: 24px 8px;
+  text-align: center;
+  color: var(--me-muted, #888);
+  font-size: 13px;
+}
+
+.mce-emoji-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 4px;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.mce-emoji-cell {
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  line-height: 1;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+}
+
+.mce-emoji-cell:hover {
+  background: color-mix(in srgb, var(--me-accent, #0073aa) 12%, var(--me-bg, #fff));
+  border-color: color-mix(in srgb, var(--me-accent, #0073aa) 35%, var(--me-border, #e0e0e0));
+}
+
 /* ---- Block Editor ---- */
 .mce-block-wrap {
   position: relative;

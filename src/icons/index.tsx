@@ -138,6 +138,20 @@ export const IconCharMap = ({ size = 16 }: IconProps) => (
   </svg>
 );
 
+export const IconEmoji = ({ size = 16 }: IconProps) => (
+  <svg aria-hidden="true" style={s(size)} viewBox="0 0 24 24" fill="none">
+    <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.75" />
+    <circle cx="9" cy="10" r="1.1" fill="currentColor" />
+    <circle cx="15" cy="10" r="1.1" fill="currentColor" />
+    <path
+      d="M8.5 14.5c.9 1.2 2.1 1.8 3.5 1.8s2.6-.6 3.5-1.8"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
 export const IconOutdent = ({ size = 16 }: IconProps) => (
   <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 6h12M6 18h12m-5-8h5m-5 4h5M9.5 9v6L6 12l3.5-3Z"/>

@@ -244,6 +244,7 @@ Direction is stored inline in the HTML output so it renders correctly anywhere, 
     imageEditor: true, // Crop/resize images before upload
     history: true, // Edit history with restore
     youtube: true, // Embed YouTube videos by URL
+    emoji: true, // Searchable emoji picker with categories & recent history
   }}
 />
 ```
