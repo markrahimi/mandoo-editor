@@ -6,13 +6,14 @@ import FormatSelect from './FormatSelect';
 import ColorPicker from './ColorPicker';
 import LinkModal from './LinkModal';
 import CharMapModal from './CharMapModal';
+import EmojiPickerModal from '../plugins/EmojiPicker';
 import {
   IconBold, IconItalic, IconUnderline, IconStrikethrough,
   IconBulList, IconNumList, IconBlockquote, IconHR, IconCode, IconDirectionRTL, IconDirectionLTR,
   IconAlignLeft, IconAlignCenter, IconAlignRight, IconAlignJustify,
   IconLinkReal, IconUnlink,
   IconKitchenSink, IconFullscreen, IconFullscreenExit,
-  IconPasteText, IconRemoveFormat, IconCharMap,
+  IconPasteText, IconRemoveFormat, IconCharMap, IconEmoji,
   IconOutdent, IconIndent, IconUndo, IconRedo,
   IconHelp, IconForeColor, IconSubscript, IconSuperscript,
 } from '../icons';
@@ -36,6 +37,8 @@ interface ToolbarProps {
   editorRef: React.RefObject<HTMLDivElement | null>;
   /** Pass true when the linkChecker plugin is active */
   showLinkChecker?: boolean;
+  /** Pass true when the emoji plugin is active */
+  showEmojiPicker?: boolean;
 }
 
 export default function Toolbar({
@@ -55,10 +58,12 @@ export default function Toolbar({
   onTogglePasteAsText,
   editorRef,
   showLinkChecker = false,
+  showEmojiPicker = false,
 }: ToolbarProps) {
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [showLinkModal, setShowLinkModal] = useState(false);
   const [showCharMap, setShowCharMap] = useState(false);
+  const [showEmojiModal, setShowEmojiModal] = useState(false);
 
   const saveOnly = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
@@ -82,7 +87,8 @@ export default function Toolbar({
   // Whether row 1 has any separator-requiring groups
   const hasRow1 = features.bold || features.italic || features.strikethrough ||
     features.lists || features.blockquote || features.hr || features.code ||
-    features.align || features.direction || features.link || features.fullscreen || features.kitchenSink;
+    features.align || features.direction || features.link || showEmojiPicker ||
+    features.fullscreen || features.kitchenSink;
 
   // Whether row 2 should render (always visible when showKitchenSink is true)
   const hasRow2 = features.kitchenSink;
@@ -258,7 +264,19 @@ export default function Toolbar({
             </>
           )}
 
-          {features.link && (features.fullscreen || features.kitchenSink) && <Sep />}
+          {features.link && (showEmojiPicker || features.fullscreen || features.kitchenSink) && <Sep />}
+
+          {showEmojiPicker && (
+            <ToolbarButton
+              title="Insert Emoji"
+              onMouseDown={saveOnly}
+              onClick={() => setShowEmojiModal(true)}
+            >
+              <IconEmoji />
+            </ToolbarButton>
+          )}
+
+          {showEmojiPicker && (features.fullscreen || features.kitchenSink) && <Sep />}
 
           {features.fullscreen && (
             <ToolbarButton
@@ -476,6 +494,12 @@ export default function Toolbar({
         <CharMapModal
           onSelect={exec.insertChar}
           onClose={() => setShowCharMap(false)}
+        />
+      )}
+      {showEmojiModal && showEmojiPicker && (
+        <EmojiPickerModal
+          onSelect={exec.insertChar}
+          onClose={() => setShowEmojiModal(false)}
         />
       )}
     </div>

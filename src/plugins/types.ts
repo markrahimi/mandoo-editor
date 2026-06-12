@@ -14,6 +14,8 @@ export interface Plugins {
   history?: boolean;
   /** Embed YouTube videos via iframe by pasting a URL. */
   youtube?: boolean;
+  /** Insert emoji via a searchable picker with categories and recent history. */
+  emoji?: boolean;
 }
 
 /**

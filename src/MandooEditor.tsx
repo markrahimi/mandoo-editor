@@ -386,6 +386,7 @@ const MandooEditor = forwardRef<MandooEditorHandle, MandooEditorProps>(function 
               onTogglePasteAsText={togglePasteAsText}
               editorRef={editorRef}
               showLinkChecker={!!plugins.linkChecker}
+              showEmojiPicker={!!plugins.emoji}
             />
 
             {/* Table context bar — visible when cursor is inside a table */}
